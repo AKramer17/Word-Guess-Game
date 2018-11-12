@@ -11,8 +11,8 @@ var words = [
     "trench"
 ];
 
-
-var alphabet = ["a","b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var alphabet = ["a","b", "c", "d", "e", "f", "g", "h", "i", "j", 
+"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
 var word = words[Math.floor(Math.random() * words.length)];
 console.log(word);
@@ -56,10 +56,10 @@ document.onkeyup = function() {
 
                         // Checks if guess is comparing against the final element in guessedLetters
                         // This statement is only true if guess has not been found equal to all elements in guessedLetters
-                        if (j == guessedLetters.length - 1 ) {
+                        if (j == guessedLetters.length - 1) {
 
                             // Loops to check guess against each letter of word
-                            for(k=0; k < word.length; k++) {
+                            for(var k=0; k < word.length; k++) {
                                 if(guess === word[k]) {
                                     //Reveals letter
                                     answer[k] = word[k];
@@ -67,6 +67,8 @@ document.onkeyup = function() {
                             }
                             // Adds guess to guessedLetters
                             guessedLetters.push(guess);
+                            remainingGuesses -= 1;
+                            statement = true;
 
                         // If last element has not been reached, continue to next element of array
                         } else {
@@ -79,15 +81,16 @@ document.onkeyup = function() {
                     }
                 }
             }
+        } else {
+            alert("Please enter a lowercase letter");
         }
     }
 }
 
 $("#guesses").keypress(function(){
     $("span").text(i -= 1);
+    statement = false;
 });
-$("button").click(function(){
-    $("p").keypress();
 
 var remainingLetters = word.length;
 
@@ -98,14 +101,4 @@ while (remainingLetters > 0 && remainingGuesses > 0) {
 for(var i=0; remainingGuesses > 0; i++) {
 
 }
-
-var i = 12;  //possible conflict with previous for loop?
-
-// guesses
-while (i>0) {
-$("input").keypress(function(){
-    $("span").text(i -= 1);
-    });
-}
-    var userInput = $("#input").on("keypress");
 });
