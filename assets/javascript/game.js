@@ -59,7 +59,7 @@ function restartGame() {
             break;
         } else if (i == 25 && guess != alphabet[i]) {
             alert("Please enter a lowercase letter");
-        } else {
+        } else {            //not sure if I need this else statement
             continue;
         }
     }
@@ -113,7 +113,7 @@ function letterChecker() {
     }
 
 function addToGuessed() {
-    remainingGuesses--;
+    letterGuesses--;
     guessedLetters.push(guess);
     guess = "";
 }
