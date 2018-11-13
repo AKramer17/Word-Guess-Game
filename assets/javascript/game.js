@@ -16,12 +16,12 @@ var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
 
 var word;
 var answer;
+var guess;
 var totalWins = document.getElementById("wins");
 var remainingGuesses = document.getElementById("guessesLeft");
 var wordElement = document.getElementById("currentWord");
 var guessedLetters = document.getElementById("guessList");
 var hasWon;
-var hasLost;
 var winCounter = 0;
 var letter = "";
 
@@ -32,7 +32,7 @@ function restartGame() {
     guessedLetters = [];
     answer = "";
     hasWon = false;
-    hasLost = false;
+    guess = "";
 
 
     for(var i=0; i<word.length; i++) {
@@ -48,7 +48,7 @@ function restartGame() {
 /* document.onkeyup = function() {
     var guess = $(this).text(); */
     document.onkeypress = function(event) {
-        var guess = String.fromCharCode(event.keyCode);
+        guess = String.fromCharCode(event.keyCode);
         console.log(guess);
     for(var i=0; i < alphabet.length; i++) {
 /*         letter = alphabet[i];
@@ -57,7 +57,7 @@ function restartGame() {
         if(guess == alphabet[i]) {
             letterChecker();
             break;
-        } else if (i == 25 && guess != letter) {
+        } else if (i == 25 && guess != alphabet[i]) {
             alert("Please enter a lowercase letter");
         } else {
             continue;
@@ -65,12 +65,10 @@ function restartGame() {
     }
 }
 function letterChecker() {
-    // Check to see if letter has already been guessed
-    if(guessedLetters.length >= 0) {
-
         // Run through array of guessed letters
+    if(guessedLetters.length != 0) {
         for(var j=0; j < guessedLetters.length; j++) {
-            if (guess !== guessedLetters[j]) {
+            if (guess != guessedLetters[j]) {
 
                 // Checks if guess is comparing against the final element in guessedLetters
                 // This statement is only true if guess has not been found equal to all elements in guessedLetters
@@ -78,34 +76,46 @@ function letterChecker() {
 
                     // Loops to check guess against each letter of word
                     for(var k=0; k < word.length; k++) {
-                        if(guess == word.chatAt(k)) {
+                        if(guess == word.charAt(k)) {
                             //Reveals letter
-                            answer.chatAt(k) = word.chatAt(k);
-                            guessedLetters.push(guess);
-                            checkWin();
-                            addToGuessed();
+                            answer.charAt(k) = word.charAt(k);
                         }
                     }
-                    // Adds guess to guessedLetters
-                    guessedLetters.push(guess);
-                    remainingGuesses--;
+                    checkWin();
+                    if (!hasWon) {
+                    addToGuessed();
+                    break;
+                    }
 
                 // If last element has not been reached, continue to next element of array
                 } else {
                     continue;
                 }
             // Case in which guess is the same as an element in guessedLetters
-            } else if (guess === guessedLetters[j]) {
+            } else if (guess == guessedLetters[j]) {
                 alert("Letter already guessed!");
+                guess = "";
                 break;
             }
         }
-    }checkWin();
-}
+        //else statement below for the user's first guess (and thereby addition to guessedLetters array)
+        } else {
+            for(var n=0; n < word.length; n++) {
+                if(guess == word.charAt(n)) {
+                //Reveals letter
+                answer.charAt(n) = word.charAt(n);
+                }
+            }
+            addToGuessed();
+            checkWin();
+        }
+        
+    }
 
 function addToGuessed() {
     remainingGuesses--;
     guessedLetters.push(guess);
+    guess = "";
 }
 
 function checkWin() {
@@ -114,9 +124,8 @@ function checkWin() {
         hasWon = true;
         winCounter += 1;
         restartGame();
-    } else if (remainingGuesses == 0 && answer.toString !== word.toString) {
+    } else if (remainingGuesses == 0 && (answer.toString !== word.toString)) {
         alert("You lost...!");
-        hasLost = true;
         restartGame();
     }
 }
@@ -126,4 +135,5 @@ function checkWin() {
 if (hasLost) {
     restartGame();
 } */
+restartGame();
 });
